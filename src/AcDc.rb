@@ -1,5 +1,13 @@
 #!/usr/bin/env ruby
 
+class ASTNode
+	
+	def initialize
+		@next = Hash.new
+	end
+	
+end
+
 class AcDcCompiler
 
 	def initialize(argv)
@@ -7,9 +15,7 @@ class AcDcCompiler
 		@source = File.open(argv[0], "r")
 		@target = File.open(argv[1], "w")
 	end
-
 	
-
 end
 
 ###################################

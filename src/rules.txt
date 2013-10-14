@@ -1,0 +1,19 @@
+Prog	-> Dcls Stmts $
+Dcls	-> Dcl Dcls
+		 | 入
+Dcl		-> floatdcl id
+		 | intdcl id
+Stmts	-> Stmt Stmts
+		 | 入
+Stmt	-> id assign Val Exprh
+		 | print id
+Exprh	-> plus Val Exprh
+		 | minus Val Exprh
+		 | Exprl
+		 | 入
+Exprl	-> mult Val Exprl
+		 | div Val Exprl
+		 | 入
+Val		-> id
+		 | inum
+		 | fnum
