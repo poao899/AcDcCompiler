@@ -5,6 +5,21 @@ class Scanner
 
     # @@regex = /([^\.\s]+\.*)|([\+\-\*\/\=]+)|(\n)/
     @@regex = /([^\+\-\*\/\=\s]+)|([\+\-\*\/\=])/
+
+    @@token_regex = 
+    {
+        /^\d+$/         => :T_inum,
+        /^\d+\.\d+$/    => :T_fnum,
+        /^p$/           => :T_print,
+        /^i$/           => :T_intdcl,
+        /^f$/           => :T_floatdcl,
+        /^[a-zA-Z]+$/   => :T_id,
+        /^\+$/          => :T_plus,
+        /^\-$/          => :T_minus, 
+        /^\*$/          => :T_mult, 
+        /^\/$/          => :T_div, 
+        /^=$/           => :T_assign
+    }
     
     def initialize(source)
         raise "can't open the source file\n" unless source.is_a? File
@@ -15,32 +30,13 @@ class Scanner
 
     def getToken
         begin str = getStr end until str.nil? || str != "\n"
-        return nil unless str
-        if str =~ /^\d+$/               # inum
-            Token.new(:T_inum, str)
-        elsif str =~ /^\d+\.\d+$/       # fnum
-            Token.new(:T_fnum, str)
-        elsif str =~ /^[a-zA-Z]+$/      # id
-            tok = case str
-                when "p" then :T_print
-                when "i" then :T_intdcl
-                when "f" then :T_floatdcl
-                else :T_id
-            end
-            Token.new(tok, str)
-        elsif str =~ /^[\+\-\*\/]$/     # operator
-            tok = case str
-                when "+" then :T_plus
-                when "-" then :T_minus
-                when "*" then :T_mult
-                when "/" then :T_div
-            end
-            Token.new(tok, str)
-        elsif str == "="                # assign
-            Token.new(:T_assign, str)
-        else                            # unknowns
-            raise "scan error at line #{@line_num}: not a symbol: #{str}"
-        end
+        return nil if str.nil?
+
+        accept_regexes = @@token_regex.keys.select { |regex| str =~ regex }
+        raise "scan error at line #{@line_num}: not a symbol: #{str}" if accept_regexes.empty?
+
+        type = @@token_regex[accept_regexes.first]
+        return Token.new(type, str)
     end
     
     private
