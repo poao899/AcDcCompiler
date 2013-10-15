@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-load 'ASTNode.rb'
+load 'ASTNodes.rb'
 load 'AcDcScanner.rb'
 
 class AcDcCompiler
@@ -18,8 +18,9 @@ class AcDcCompiler
             @token_list.push(token)
             token.test
         end
-        test = TestNode.new(@token_list)
+        test = Prog.new(@token_list)
         test.parse
+        test.trace
     end
     
 end

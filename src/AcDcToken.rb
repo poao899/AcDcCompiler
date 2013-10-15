@@ -4,9 +4,9 @@ class Token
    
     def initialize(sym, val)
         @sym = sym.to_sym
-        if @sym == :inum
+        if @sym == :T_inum
             @val = val.to_i
-        elsif @sym == :fnum
+        elsif @sym == :T_fnum
             @val = val.to_f
         else
             @val = val.to_s

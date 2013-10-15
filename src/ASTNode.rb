@@ -2,14 +2,14 @@ class ASTNode
         
     def initialize(token_list=[])
         @child ||= []
-        @prefix_rule = nil
+        @prefix_rule = []
         @rules ||= []
         @val ||= nil
         @expect_sym ||= :none
         @token_list = token_list
     end
     
-    @@try_rule = Proc.new do |tok,node|        
+    @@try_rule = Proc.new do |node|        
         chd = Object.const_get(node).new(@token_list)
         @child.push(chd)
         @token_list = chd.parse
@@ -46,12 +46,13 @@ class ASTNode
         
         return @token_list
     end
+
+    def trace(d=0)
+        d.times{print"="}
+        puts "Now at #{self.class.name}"
+        @child.each{|x| x.trace(d+1)}
+    end
 end
-
-class Prog < ASTNode
-
-end
-
 
 ###################################
 # Test Only                       #
@@ -60,7 +61,7 @@ end
 class TestNode < ASTNode
     def initialize(token_list)
         super(token_list)
-        @prefix_rule = [[:id,:TestNode]]
+        @prefix_rule = [:TestNode]
         @expect_sym = :id
     end
 end

@@ -17,15 +17,27 @@ class Scanner
         begin str = getStr end until str.nil? || str != "\n"
         return nil unless str
         if str =~ /^\d+$/               # inum
-            Token.new(:inum, str)
+            Token.new(:T_inum, str)
         elsif str =~ /^\d+\.\d+$/       # fnum
-            Token.new(:fnum, str)
+            Token.new(:T_fnum, str)
         elsif str =~ /^[a-zA-Z]+$/      # id
-            Token.new(:id, str)
+            tok = case str
+                when "p" then :T_print
+                when "i" then :T_intdcl
+                when "f" then :T_floatdcl
+                else :T_id
+            end
+            Token.new(tok, str)
         elsif str =~ /^[\+\-\*\/]$/     # operator
-            Token.new(:ope, str)
+            tok = case str
+                when "+" then :T_plus
+                when "-" then :T_minus
+                when "*" then :T_mult
+                when "/" then :T_div
+            end
+            Token.new(tok, str)
         elsif str == "="                # assign
-            Token.new(:ass, str)
+            Token.new(:T_assign, str)
         else                            # unknowns
             raise "scan error at line #{@line_num}: not a symbol: #{str}"
         end
