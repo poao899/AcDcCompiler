@@ -1,8 +1,8 @@
 
 class ASTNode
-	
-	def initialize
-		@next ||= Hash.new
-	end
-	
+    
+    def initialize
+        @next ||= Hash.new
+    end
+    
 end

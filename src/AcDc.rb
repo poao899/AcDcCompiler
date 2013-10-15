@@ -5,20 +5,20 @@ load 'AcDcScanner.rb'
 
 class AcDcCompiler
 
-	def initialize(argv)
-		raise "can't open the source file\n" unless File.readable? argv[0]
-		@source = File.open(argv[0], "r")
-		@target = File.open(argv[1], "w")
-		@scanner = Scanner.new(@source)
-		@token_list = []
-	end
-	
-	def parse
-		while token = @scanner.getToken
-			@token_list.insert(token)
-		end
-	end
-	
+    def initialize(argv)
+        raise "can't open the source file\n" unless File.readable? argv[0]
+        @source = File.open(argv[0], "r")
+        @target = File.open(argv[1], "w")
+        @scanner = Scanner.new(@source)
+        @token_list = []
+    end
+    
+    def parse
+        while token = @scanner.getToken
+            @token_list.insert(token)
+        end
+    end
+    
 end
 
 ###################################
@@ -28,17 +28,17 @@ end
 
 def main
 
-	begin
+    begin
 
-		raise "Usage: #{$0} source_file target_file" unless ARGV.length == 2
+        raise "Usage: #{$0} source_file target_file" unless ARGV.length == 2
 
-		myAcDc = AcDcCompiler.new(ARGV)
-		myAcDc.parse
-	
-    rescue Exception => e	# Compile failed.
-		puts e.message
-	end
-	
+        myAcDc = AcDcCompiler.new(ARGV)
+        myAcDc.parse
+    
+    rescue Exception => e    # Compile failed.
+        puts e.message
+    end
+    
 end
 
-main if __FILE__ == $0		# The entry of this program
+main if __FILE__ == $0        # The entry of this program
