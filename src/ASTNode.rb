@@ -10,6 +10,13 @@ class ASTNode
     end
     
     def parse
+        
+        try_match = Proc.new do |node|
+            chd = Object.const_get(node).new(@token_list)
+            @child.push(chd)
+            @token_list = chd.parse
+        end
+    
         unless @expect_sym == :none
             token = @token_list.shift
             # This is a terminal: check .first type
@@ -19,11 +26,7 @@ class ASTNode
         end
         
         # Two or more rules with same prefix
-        @prefix_rule.each do |node|
-            chd = Object.const_get(node).new(@token_list)
-            @child.push(chd)
-            @token_list = chd.parse
-        end
+        @prefix_rule.each &try_match
         
         # Find out which rule is correct
         
@@ -33,11 +36,7 @@ class ASTNode
             # Try to parse this rule
             token_list_tmp = Array.new(@token_list)
             begin
-                rule.each do |node|
-                    chd = Object.const_get(node).new(@token_list)
-                    @child.push(chd)
-                    @token_list = chd.parse
-                end
+                rule.each &try_match
                 match_success = true
                 break
             rescue Exception => e
