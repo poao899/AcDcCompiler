@@ -13,9 +13,8 @@ class ASTNode
     
         puts "parse at #{self.class.name}"
         
-        token = @token_list.shift
-        
         unless @expect_sym == :none
+            token = @token_list.shift
             # This is a terminal: check .first type
             raise "parse error: Done with imcomplete parsing" if token.nil?
             raise "parse error: Expect a #{@expect_sym}, get a #{token.sym}" unless token.sym == @expect_sym
@@ -30,27 +29,29 @@ class ASTNode
         end
         
         # Find out which rule is correct
+        
+        match_success = @rules.empty?
+        
         @rules.each do |rule|
             puts "Rule: #{rule}"
             # Try to parse this rule
-            token_list_tmp = @token_list
+            token_list_tmp = Array.new(@token_list)
             begin
-                token_list_tmp = @token_list
                 rule.each do |node|
                     chd = Object.const_get(node).new(@token_list)
                     @child.push(chd)
                     @token_list = chd.parse
                 end
+                match_success = true
                 break
             rescue Exception => e
-                puts e.message   # test only
+                puts "Got msg #{e.message}"   # test only
                 @token_list = token_list_tmp
-                chd.clear unless chd.nil?
-                raise e
-                next
+                @child.clear unless @child.nil?
             end
         end
         
+        raise "Match error" unless match_success
         return @token_list
     end
 

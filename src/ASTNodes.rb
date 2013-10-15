@@ -27,7 +27,7 @@ class Dcls < ASTNode
 end
 
 class Dcl < ASTNode
-    def intialize(token_list)
+    def initialize(token_list)
         super(token_list)
         @prefix_rule = []
         @rules = [
@@ -38,7 +38,7 @@ class Dcl < ASTNode
 end
 
 class Stmts < ASTNode
-    def intialize(token_list)
+    def initialize(token_list)
         super(token_list)
         @prefix_rule = []
         @rules = [
@@ -49,7 +49,7 @@ class Stmts < ASTNode
 end
 
 class Stmt < ASTNode
-    def intialize(token_list)
+    def initialize(token_list)
         super(token_list)
         @prefix_rule = []
         @rules = [
@@ -60,29 +60,29 @@ class Stmt < ASTNode
 end
 
 class Exprh < ASTNode
-    def intialize(token_list)
+    def initialize(token_list)
         super(token_list)
         @prefix_rule = [:Exprl]
         @rules = [
-            [:N_lambda],
-            [:Opeh, :Exprh]
+            [:Opeh, :Exprh],
+            [:N_lambda]
         ]
     end
 end
 
 class Exprl < ASTNode
-    def intialize(token_list)
+    def initialize(token_list)
         super(token_list)
         @prefix_rule = [:Val]
         @rules = [
-            [:N_lambda],
-            [:Opel, :Exprl]
+            [:Opel, :Exprl],
+            [:N_lambda]
         ]
     end
 end
 
 class Opeh < ASTNode
-    def intialize(token_list)
+    def initialize(token_list)
         super(token_list)
         @prefix_rule = []
         @rules = [
@@ -93,7 +93,7 @@ class Opeh < ASTNode
 end
 
 class Opel < ASTNode
-    def intialize(token_list)
+    def initialize(token_list)
         super(token_list)
         @prefix_rule = []
         @rules = [
@@ -104,7 +104,7 @@ class Opel < ASTNode
 end
 
 class Val < ASTNode
-    def intialize(token_list)
+    def initialize(token_list)
         super(token_list)
         @prefix_rule = []
         @rules = [
@@ -116,70 +116,84 @@ class Val < ASTNode
 end
 
 class N_lambda < ASTNode
-    def intialize(token_list)
+    def initialize(token_list)
         super(token_list)
     end
 end
 
 class N_id < ASTNode
-    def intialize(token_list)
+    def initialize(token_list)
         super(token_list)
         @expect_sym = :T_id
     end
 end
 
 class N_assign < ASTNode
-    def intialize(token_list)
+    def initialize(token_list)
         super(token_list)
         @expect_sym = :T_assign
     end
 end
 
 class N_plus < ASTNode
-    def intialize(token_list)
+    def initialize(token_list)
         super(token_list)
         @expect_sym = :T_plus
     end
 end
 
 class N_minus < ASTNode
-    def intialize(token_list)
+    def initialize(token_list)
         super(token_list)
         @expect_sym = :T_minus
     end
 end
 
 class N_mult < ASTNode
-    def intialize(token_list)
+    def initialize(token_list)
         super(token_list)
         @expect_sym = :T_mult
     end
 end
 
 class N_div < ASTNode
-    def intialize(token_list)
+    def initialize(token_list)
         super(token_list)
         @expect_sym = :T_div
     end
 end
 
 class N_print < ASTNode
-    def intialize(token_list)
+    def initialize(token_list)
         super(token_list)
         @expect_sym = :T_print
     end
 end
 
 class N_intdcl < ASTNode
-    def intialize(token_list)
+    def initialize(token_list)
         super(token_list)
         @expect_sym = :T_intdcl
     end
 end
 
 class N_floatdcl < ASTNode
-    def intialize(token_list)
+    def initialize(token_list)
         super(token_list)
         @expect_sym = :T_floatdcl
+    end
+end
+
+class N_inum < ASTNode
+    def initialize(token_list)
+        super(token_list)
+        @expect_sym = :T_inum
+    end
+end
+
+class N_fnum < ASTNode
+    def initialize(token_list)
+        super(token_list)
+        @expect_sym = :T_fnum
     end
 end

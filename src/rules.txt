@@ -12,11 +12,11 @@ Stmts   -> Stmt Stmts
 Stmt    -> id assign Exprh
          | print id
 
-Exprh   -> Exprl
-         | Exprl Opeh Exprh
+Exprh   -> Exprl Opeh Exprh
+         | Exprl
 
-Exprl   -> Val
-         | Val Opel Exprl
+Exprl   -> Val Opel Exprl
+         | Val
 
 Opeh    -> plus
          | minus
