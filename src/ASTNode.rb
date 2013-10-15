@@ -16,6 +16,9 @@ class ASTNode
     end
     
     def parse
+    
+        puts "parse at #{self.class.name}"
+        
         token = @token_list.shift
         
         unless @expect_sym == :none
@@ -38,6 +41,7 @@ class ASTNode
                 rule.each {@@try_rule}
                 break
             rescue Exception => e
+                puts e.message   # test only
                 @token_list = token_list_tmp
                 chd.clear unless chd.nil?
                 next
