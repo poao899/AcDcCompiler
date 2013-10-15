@@ -15,23 +15,21 @@ class Scanner
     def getToken
         begin str = getStr end until str.nil? || str != "\n"
         return nil unless str
-        ret = nil
         if str =~ /^\d+$/               # inum
-            ret = Token.new(:inum, str)
+            Token.new(:inum, str)
         elsif str =~ /^\d+\.$/          # fnum
             str2 = getStr
             raise "scan error at line #{@line_num}: not a fnum: #{str+str2}" unless str2 =~ /^\d+$/
-            ret = Token.new(:fnum, str+str2)
+            Token.new(:fnum, str+str2)
         elsif str =~ /^[a-zA-Z]+$/      # id
-            ret = Token.new(:id, str)
+            Token.new(:id, str)
         elsif str =~ /^[\+\-\*\/]$/     # operator
-            ret = Token.new(:ope, str)
+            Token.new(:ope, str)
         elsif str == "="                # assign
-            ret = Token.new(:ass, str)
+            Token.new(:ass, str)
         else                            # unknowns
             raise "scan error at line #{@line_num}: not a symbol: #{str}"
         end
-        return ret
     end
     
     private
