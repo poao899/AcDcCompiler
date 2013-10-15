@@ -1,12 +1,7 @@
 #!/usr/bin/env ruby
 
-class ASTNode
-	
-	def initialize
-		@next = Hash.new
-	end
-	
-end
+load 'ASTNode.rb'
+load 'AcDcParser.rb'
 
 class AcDcCompiler
 
@@ -14,6 +9,14 @@ class AcDcCompiler
 		raise "can't open the source file\n" unless File.readable? (argv[0])
 		@source = File.open(argv[0], "r")
 		@target = File.open(argv[1], "w")
+		@parser = Parser.new(@source)
+		@token_list = []
+	end
+	
+	def parse
+		while token = @parser.getToken
+			@token_list.insert(token)
+		end
 	end
 	
 end
@@ -30,8 +33,7 @@ def main
 		raise "Usage: #{$0} source_file target_file" unless ARGV.length == 2
 
 		myAcDc = AcDcCompiler.new(ARGV)
-		
-		myAcDc.test
+		myAcDc.parse
 	
     rescue Exception => e	# Compile failed.
 		puts e.message

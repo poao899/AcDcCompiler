@@ -5,15 +5,18 @@ Dcl		-> floatdcl id
 		 | intdcl id
 Stmts	-> Stmt Stmts
 		 | 入
-Stmt	-> id assign Val Exprh
+Stmt	-> id assign Exprh
 		 | print id
-Exprh	-> plus Val Exprh
-		 | minus Val Exprh
+Exprh	-> Exprh Opeh Exprh
 		 | Exprl
 		 | 入
-Exprl	-> mult Val Exprl
-		 | div Val Exprl
+Exprl	-> Exprl Opel Exprl
+		 | Val
 		 | 入
+Opeh	-> plus
+		 | minus
+Opel	-> mult
+		 | div
 Val		-> id
 		 | inum
 		 | fnum
