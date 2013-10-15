@@ -87,9 +87,18 @@ class Stmt < ASTNode
     def update_code(symbol_table)
         if @child[0].is_a? N_id
             # assign
-            var_name = @child[0].val
+            output = ""
+
+            left, right = @child[0], @child[2]
+            var_name = left.val
             puts "assignment : #{var_name}"
-            return "s#{symbol_table[var_name][:reg]}\n" + "0 k\n"
+            if left.type != right.type 
+                raise "Error : can't convert float to integer" if left.type == :Int
+                puts "convert to float"
+                output += "5 k\n"
+            end
+            output += "s#{symbol_table[var_name][:reg]}\n" + "0 k\n"
+            return output
         else
             # print
             var_name = @child[1].val
