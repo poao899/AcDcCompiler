@@ -56,10 +56,10 @@ class Dcl < ASTNode
     end
 
     def get_symbol_table
-        if @child[0].is_a? N_floatdcl
-            {@child[1].val => :IntType}
+        if @child[0].is_a? N_intdcl
+            {@child[1].val => :Int}
         else 
-            {@child[1].val => :FloatType}
+            {@child[1].val => :Float}
         end
     end 
 end
@@ -95,6 +95,14 @@ class Exprh < ASTNode
             []
         ]
     end
+    def update_type(symbol_table)
+        @type = 
+            if @child[0].type == @child[2].type 
+                @child[0].type 
+            else 
+                :Float
+            end
+    end 
 end
 
 class Exprl < ASTNode
@@ -106,6 +114,14 @@ class Exprl < ASTNode
             []
         ]
     end
+    def update_type(symbol_table)
+        @type = 
+            if @child[0].type == @child[2].type 
+                @child[0].type 
+            else 
+                :Float
+            end
+    end 
 end
 
 class Opeh < ASTNode
@@ -153,6 +169,9 @@ class N_id < ASTNode
         super(token_list)
         @expect_sym = :T_id
     end
+    def update_type(symbol_table)
+        @type = symbol_table[@val][:type] if symbol_table.has_key? @val
+    end 
 end
 
 class N_assign < ASTNode
@@ -235,6 +254,9 @@ class N_inum < N_absnum
         super(token_list)
         @expect_sym = :T_inum
     end
+    def update_type(symbol_table)
+        @type = :Int
+    end 
 end
 
 class N_fnum < N_absnum
@@ -242,6 +264,9 @@ class N_fnum < N_absnum
         super(token_list)
         @expect_sym = :T_fnum
     end
+    def update_type(symbol_table)
+        @type = :Float
+    end 
 end
 
 class N_eof < ASTNode
