@@ -1,8 +1,6 @@
 load 'ASTNode.rb'
 
-require 'stringio'
-
-class Parser
+class Scanner
 
 	@@regex = /([^\.\s]+\.*)|([\+\-\*\/\=]+)|(\n)/
 
@@ -20,10 +18,10 @@ class Parser
 			# read a inum
 		elsif str =~ /^\d+\.$/
 			str2 = getStr
-			raise "parser error at line #{@line_num}: not a fnum: #{str+str2}" unless str2 =~ /^\d+$/
+			raise "scan error at line #{@line_num}: not a fnum: #{str+str2}" unless str2 =~ /^\d+$/
 			str += str2
 			# read a fnum
-		elsif str =~ /^[a-zA-Z]$/
+		elsif str =~ /^[a-zA-Z]+$/
 			# read a id
 		elsif str =~ /^[\+\-]$/
 			# read plus/minus
@@ -32,7 +30,7 @@ class Parser
 		elsif str == "="
 			# read assign
 		else
-			raise "parser error at line #{@line_num}: not a symbol: #{str}"
+			raise "scan error at line #{@line_num}: not a symbol: #{str}"
 		end
 		return str
 	end

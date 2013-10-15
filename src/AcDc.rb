@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
 load 'ASTNode.rb'
-load 'AcDcParser.rb'
+load 'AcDcScanner.rb'
 
 class AcDcCompiler
 
@@ -9,12 +9,12 @@ class AcDcCompiler
 		raise "can't open the source file\n" unless File.readable? (argv[0])
 		@source = File.open(argv[0], "r")
 		@target = File.open(argv[1], "w")
-		@parser = Parser.new(@source)
+		@scanner = Scanner.new(@source)
 		@token_list = []
 	end
 	
 	def parse
-		while token = @parser.getToken
+		while token = @scanner.getToken
 			@token_list.insert(token)
 		end
 	end
