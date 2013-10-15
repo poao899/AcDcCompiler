@@ -43,8 +43,8 @@ class ASTNode
                 match_success = true
                 break
             rescue Exception => e
-                @token_list = token_list_tmp
-                @child = child_tmp
+                @token_list = Array.new(token_list_tmp)
+                @child = Array.new(child_tmp)
             end
         end
         

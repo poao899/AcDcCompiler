@@ -35,7 +35,8 @@ class Dcls < ASTNode
         child.each do |chd| 
             table = chd.get_symbol_table
 
-            duplicate_keys = symbol_table.select { |key| table.keys? key }
+            # TODO: the reference solution by TA would print Error but continue 
+            duplicate_keys = symbol_table.keys.select { |key| table.has_key? key }
             duplicate_keys.each {|key| puts "Error : id #{key} has been declared"}
 
             symbol_table.merge!(table)
