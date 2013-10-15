@@ -124,62 +124,62 @@ end
 class N_id < ASTNode
     def intialize(token_list)
         super(token_list)
-        @val = :T_id
+        @expect_sym = :T_id
     end
 end
 
 class N_assign < ASTNode
     def intialize(token_list)
         super(token_list)
-        @val = :T_assign
+        @expect_sym = :T_assign
     end
 end
 
 class N_plus < ASTNode
     def intialize(token_list)
         super(token_list)
-        @val = :T_plus
+        @expect_sym = :T_plus
     end
 end
 
 class N_minus < ASTNode
     def intialize(token_list)
         super(token_list)
-        @val = :T_minus
+        @expect_sym = :T_minus
     end
 end
 
 class N_mult < ASTNode
     def intialize(token_list)
         super(token_list)
-        @val = :T_mult
+        @expect_sym = :T_mult
     end
 end
 
 class N_div < ASTNode
     def intialize(token_list)
         super(token_list)
-        @val = :T_div
+        @expect_sym = :T_div
     end
 end
 
 class N_print < ASTNode
     def intialize(token_list)
         super(token_list)
-        @val = :T_print
+        @expect_sym = :T_print
     end
 end
 
 class N_intdcl < ASTNode
     def intialize(token_list)
         super(token_list)
-        @val = :T_intdcl
+        @expect_sym = :T_intdcl
     end
 end
 
 class N_floatdcl < ASTNode
     def intialize(token_list)
         super(token_list)
-        @val = :T_floatdcl
+        @expect_sym = :T_floatdcl
     end
 end

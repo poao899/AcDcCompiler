@@ -9,12 +9,6 @@ class ASTNode
         @token_list = token_list
     end
     
-    @@try_rule = Proc.new do |node|        
-        chd = Object.const_get(node).new(@token_list)
-        @child.push(chd)
-        @token_list = chd.parse
-    end
-    
     def parse
     
         puts "parse at #{self.class.name}"
@@ -29,21 +23,30 @@ class ASTNode
         end
         
         # Two or more rules with same prefix
-        @prefix_rule.each {@@try_rule}
+        @prefix_rule.each do |node|
+            chd = Object.const_get(node).new(@token_list)
+            @child.push(chd)
+            @token_list = chd.parse
+        end
         
         # Find out which rule is correct
         @rules.each do |rule|
-            success = false
+            puts "Rule: #{rule}"
             # Try to parse this rule
             token_list_tmp = @token_list
             begin
                 token_list_tmp = @token_list
-                rule.each {@@try_rule}
+                rule.each do |node|
+                    chd = Object.const_get(node).new(@token_list)
+                    @child.push(chd)
+                    @token_list = chd.parse
+                end
                 break
             rescue Exception => e
                 puts e.message   # test only
                 @token_list = token_list_tmp
                 chd.clear unless chd.nil?
+                raise e
                 next
             end
         end
