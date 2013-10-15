@@ -1,6 +1,6 @@
 class ASTNode
     
-    attr_reader :child
+    attr_reader :child, :type
     attr_accessor :val
     
     def initialize(token_list=[])
@@ -8,6 +8,7 @@ class ASTNode
         @prefix_rule = []
         @rules ||= []
         @val ||= nil
+        @type ||= :none
         @expect_sym ||= :none
         @token_list = token_list
     end
@@ -54,7 +55,7 @@ class ASTNode
 
     def trace(d=0)
         d.times{print">>> "}
-        puts "Now at #{self.class.name} with val:#{@val}"
+        puts "Now at #{self.class.name} with val:#{@val} and type:#{@type}"
         @child.each{|x| x.trace(d+1)}
     end
     
@@ -103,6 +104,12 @@ class ASTNode
     end 
 
     def get_type_of_val(symbol_table)
+        @child.each { |chd| chd.get_type_of_val(symbol_table) }
+        update_type(symbol_table)
+    end 
+
+    def update_type(symbol_table)
+        @type = :none
     end 
 
     def code_generate(symbol_table)

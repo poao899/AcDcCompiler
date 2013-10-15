@@ -20,19 +20,19 @@ class AcDcCompiler
         end
         @token_list.push(Token.new(:T_eof))
 
-        #@token_list.each {|x| x.test} #FIXME: DEBUG
+        #@token_list.each {|x| x.test} #DEBUG
     end 
 
     def parse
         @syntax_tree = Prog.new(@token_list)
         @syntax_tree.parse
         @syntax_tree.rotate(["Exprh", "Exprl"])
-        #@syntax_tree.trace
+        #@syntax_tree.trace #DEBUG
     end
 
     def optimize
         @syntax_tree.const_fold
-        @syntax_tree.trace
+        #@syntax_tree.trace #DEBUG
     end 
     
     def code_generate
@@ -43,7 +43,8 @@ class AcDcCompiler
             symbol_table[var_name] = {:type => type, :reg => ((idx + 10).to_s 36)}
         end 
 
-        puts symbol_table
+        @syntax_tree.get_type_of_val(symbol_table)
+        @syntax_tree.trace
 
         # TODO: output to target_file
         #result = @syntax_tree.code_generate 
