@@ -1,6 +1,6 @@
 require 'stringio'
 
-class T
+class TT
     class << self
         attr_accessor :xd
     end
@@ -10,7 +10,7 @@ class T
     end
 end
 
-class P < T
+class PP < TT
     def test
         puts @@xd
     end
@@ -19,14 +19,14 @@ class P < T
     end
 end
 
-t = T.new
-p = P.new
+t = TT.new
+p = PP.new
 t.test          # this will puts 10
 p.test          # 10, too
-T.xd = 5
+TT.xd = 5
 t.test
 p.test
-P.xd = 7
+PP.xd = 7
 t.test
 p.test
 
