@@ -44,11 +44,9 @@ class AcDcCompiler
         end 
 
         @syntax_tree.get_type_of_val(symbol_table)
-        @syntax_tree.trace
 
-        # TODO: output to target_file
-        #result = @syntax_tree.code_generate 
-        #puts result
+        result = @syntax_tree.code_generate(symbol_table)
+        print result
     end
 end
 

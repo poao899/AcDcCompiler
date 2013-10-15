@@ -84,6 +84,19 @@ class Stmt < ASTNode
             [:N_print, :N_id]
         ]
     end
+    def update_code(symbol_table)
+        if @child[0].is_a? N_id
+            # assign
+            var_name = @child[0].val
+            puts "assignment : #{var_name}"
+            return "s#{symbol_table[var_name][:reg]}\n" + "0 k\n"
+        else
+            # print
+            var_name = @child[1].val
+            puts "print : #{var_name}"
+            return "l#{symbol_table[var_name][:reg]}\n" + "p\n"
+        end
+    end 
 end
 
 class Exprh < ASTNode
@@ -103,6 +116,16 @@ class Exprh < ASTNode
                 :Float
             end
     end 
+
+    def update_code(symbol_table)
+        left, right = @child[0], @child[2]
+        output = ""
+        output += "l#{symbol_table[left.val][:reg]}\n" if left.is_a? N_id
+        output += "l#{symbol_table[right.val][:reg]}\n" if right.is_a? N_id
+        output += "5 k\n" if @type == :Float
+        output += "#{@child[1].val}\n"
+        return output
+    end 
 end
 
 class Exprl < ASTNode
@@ -121,6 +144,15 @@ class Exprl < ASTNode
             else 
                 :Float
             end
+    end 
+    def update_code(symbol_table)
+        left, right = @child[0], @child[2]
+        output = ""
+        output += "l#{symbol_table[left.val][:reg]}\n" if left.is_a? N_id
+        output += "l#{symbol_table[right.val][:reg]}\n" if right.is_a? N_id
+        output += "5 k\n" if @type == :Float
+        output += "#{@child[1].val}\n"
+        return output
     end 
 end
 
@@ -170,7 +202,8 @@ class N_id < ASTNode
         @expect_sym = :T_id
     end
     def update_type(symbol_table)
-        @type = symbol_table[@val][:type] if symbol_table.has_key? @val
+        raise "Error : identifier #{key} is not declared" unless symbol_table.has_key? @val
+        @type = symbol_table[@val][:type]
     end 
 end
 
@@ -257,6 +290,10 @@ class N_inum < N_absnum
     def update_type(symbol_table)
         @type = :Int
     end 
+    def update_code(symbol_table)
+        puts "constant : Int"
+        return "#{@val}\n"
+    end 
 end
 
 class N_fnum < N_absnum
@@ -266,6 +303,10 @@ class N_fnum < N_absnum
     end
     def update_type(symbol_table)
         @type = :Float
+    end 
+    def update_code(symbol_table)
+        puts "constant : Float"
+        return "#{@val}\n"
     end 
 end
 

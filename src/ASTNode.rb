@@ -113,6 +113,15 @@ class ASTNode
     end 
 
     def code_generate(symbol_table)
+        output = ""
+        @child.each { |chd| output += chd.code_generate(symbol_table) }
+        #output +=  "# Node_#{self.class.name}(val:#{@val}, type:#{@type}) begin\n"
+        output += update_code(symbol_table)
+        #output += "# end\n"
+        return output
+    end 
+    def update_code(symbol_table)
+        return ""
     end 
 end
 
