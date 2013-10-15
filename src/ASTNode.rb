@@ -36,7 +36,9 @@ class ASTNode
     end
 end
 
-# Test onlys
+###################################
+# Test Only                       #
+###################################
 
 class TestNode < ASTNode
     def initialize(val=nil)
@@ -44,3 +46,4 @@ class TestNode < ASTNode
         @prefix_rule = [[:id,:TestNode]]
     end
 end
+

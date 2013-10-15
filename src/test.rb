@@ -1,5 +1,17 @@
 require 'stringio'
 
+module X
+    def test
+        puts @@xx
+    end
+    def self.xx=(xx)
+        @@xx = xx
+    end
+    def xx
+        xx
+    end
+end
+
 class TT
     class << self
         attr_accessor :xd
@@ -11,6 +23,7 @@ class TT
 end
 
 class PP < TT
+    include X
     def test
         puts @@xd
     end
@@ -29,6 +42,8 @@ p.test
 PP.xd = 7
 t.test
 p.test
+P.xx = 5
+puts p.xx
 
 class TreeNode
 
