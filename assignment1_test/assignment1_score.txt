@@ -1,0 +1,14 @@
+1. longvar.ac - 30 %
+(5 % for each output)
+
+2. const - 25 %
+(5 % for each output)
+
+3. operators - 25 %
+(5 % for each output)
+
+4. constadv - 10 %
+
+5. operatorsadv - 10 %
+
+(p.s. In const and constadv, constant folding must be implemented to gain points)
