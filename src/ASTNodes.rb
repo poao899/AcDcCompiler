@@ -10,7 +10,7 @@ class Prog < ASTNode
         super(token_list)
         @prefix_rule = []
         @rules = [
-            [:Dcls, :Stmts]
+            [:Dcls, :Stmts, :N_eof]
         ]
     end
 end
@@ -195,5 +195,12 @@ class N_fnum < ASTNode
     def initialize(token_list)
         super(token_list)
         @expect_sym = :T_fnum
+    end
+end
+
+class N_eof < ASTNode
+    def initialize(token_list)
+        super(token_list)
+        @expect_sym = :T_eof
     end
 end

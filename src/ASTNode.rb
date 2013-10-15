@@ -10,9 +10,6 @@ class ASTNode
     end
     
     def parse
-    
-        puts "parse at #{self.class.name}"
-        
         unless @expect_sym == :none
             token = @token_list.shift
             # This is a terminal: check .first type
@@ -33,7 +30,6 @@ class ASTNode
         match_success = @rules.empty?
         
         @rules.each do |rule|
-            puts "Rule: #{rule}"
             # Try to parse this rule
             token_list_tmp = Array.new(@token_list)
             begin
@@ -45,13 +41,12 @@ class ASTNode
                 match_success = true
                 break
             rescue Exception => e
-                puts "Got msg #{e.message}"   # test only
                 @token_list = token_list_tmp
                 @child.clear unless @child.nil?
             end
         end
         
-        raise "Match error" unless match_success
+        raise "parse error" unless match_success
         return @token_list
     end
 

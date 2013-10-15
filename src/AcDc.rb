@@ -16,11 +16,11 @@ class AcDcCompiler
     def parse
         while token = @scanner.getToken
             @token_list.push(token)
-            token.test
         end
+        @token_list.push(Token.new(:T_eof))
         test = Prog.new(@token_list)
         test.parse
-        test.trace
+        # test.trace
     end
     
 end
