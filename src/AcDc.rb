@@ -20,7 +20,10 @@ class AcDcCompiler
         @token_list.push(Token.new(:T_eof))
         test = Prog.new(@token_list)
         test.parse
-        # test.trace
+        test.trace
+        puts "======================"
+        test.rotate(["Exprh","Exprl"])
+        test.trace
     end
     
 end

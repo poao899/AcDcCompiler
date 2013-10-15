@@ -1,5 +1,7 @@
 class ASTNode
-        
+    
+    attr_reader :child
+    
     def initialize(token_list=[])
         @child ||= []
         @prefix_rule = []
@@ -29,19 +31,19 @@ class ASTNode
         @prefix_rule.each &try_match
         
         # Find out which rule is correct
-        
         match_success = @rules.empty?
+        token_list_tmp = Array.new(@token_list)
+        child_tmp = Array.new(@child)
         
         @rules.each do |rule|
             # Try to parse this rule
-            token_list_tmp = Array.new(@token_list)
             begin
                 rule.each &try_match
                 match_success = true
                 break
             rescue Exception => e
                 @token_list = token_list_tmp
-                @child.clear unless @child.nil?
+                @child = child_tmp
             end
         end
         
@@ -50,9 +52,25 @@ class ASTNode
     end
 
     def trace(d=0)
-        d.times{print"="}
+        d.times{print">>> "}
         puts "Now at #{self.class.name}"
         @child.each{|x| x.trace(d+1)}
+    end
+    
+    def rotate(invalid_symbols)
+        # puts "#{self.class.name} && #{invalid_symbols.include? self.class.name}}"
+        @child.each_with_index do |x,idx|
+            if (invalid_symbols.include? self.class.name) && (idx == @child.length-1) && (x.class.name == self.class.name)
+                ret = x.rotate(invalid_symbols)
+                @child[idx] = x.child[0]
+                x.child[0] = self
+                return ret
+            else
+                @child[idx] = x.rotate(invalid_symbols)
+            end
+            
+        end
+        return self
     end
 end
 
