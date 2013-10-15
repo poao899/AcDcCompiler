@@ -9,6 +9,12 @@ class ASTNode
         @token_list = token_list
     end
     
+    @@try_rule = Proc.new do |tok,node|        
+        chd = Object.const_get(node).new(@token_list)
+        @child.push(chd)
+        @token_list = chd.parse
+    end
+    
     def parse
         token = @token_list.shift
         
@@ -20,15 +26,22 @@ class ASTNode
         end
         
         # Two or more rules with same prefix
-        @prefix_rule.each do |tok,node|
-            chd = Object.const_get(node).new(@token_list)
-            @child.push(chd)
-            @token_list = chd.parse
-        end
+        @prefix_rule.each {@@try_rule}
         
         # Find out which rule is correct
-        @rules.each do |tok,node|
-            
+        @rules.each do |rule|
+            success = false
+            # Try to parse this rule
+            token_list_tmp = @token_list
+            begin
+                token_list_tmp = @token_list
+                rule.each {@@try_rule}
+                break
+            rescue Exception => e
+                @token_list = token_list_tmp
+                chd.clear unless chd.nil?
+                next
+            end
         end
         
         return @token_list
