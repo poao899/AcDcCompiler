@@ -29,7 +29,7 @@ class ASTNode
         end
         
         # Two or more rules with same prefix
-        @prefix_rule.each &try_match
+        @prefix_rule.each(&try_match)
         
         # Find out which rule is correct
         match_success = @rules.empty?
@@ -39,7 +39,7 @@ class ASTNode
         @rules.each do |rule|
             # Try to parse this rule
             begin
-                rule.each &try_match
+                rule.each(&try_match)
                 match_success = true
                 break
             rescue Exception => e
@@ -97,6 +97,16 @@ class ASTNode
         end
         return self
     end
+
+    def get_symbol_table
+        {}
+    end 
+
+    def get_type_of_val(symbol_table)
+    end 
+
+    def code_generate(symbol_table)
+    end 
 end
 
 ###################################

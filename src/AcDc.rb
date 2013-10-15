@@ -54,8 +54,8 @@ def main
         myAcDc = AcDcCompiler.new(ARGV)
         myAcDc.get_input
         myAcDc.parse
-        myAcDc.optimize
-        myAcDc.code_generate 
+        #myAcDc.optimize
+        #myAcDc.code_generate 
     rescue Exception => e    # Compile failed.
         puts e.message
     end

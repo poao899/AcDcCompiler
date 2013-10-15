@@ -13,6 +13,10 @@ class Prog < ASTNode
             [:Dcls, :Stmts, :N_eof]
         ]
     end
+
+    def get_symbol_table
+        return @child[0].get_symbol_table
+    end 
 end
 
 class Dcls < ASTNode
@@ -24,6 +28,20 @@ class Dcls < ASTNode
             [:N_lambda]
         ]
     end
+
+    def get_symbol_table
+        # FIXME: slow algorithm
+        symbol_table = {}
+        child.each do |chd| 
+            table = chd.get_symbol_table
+
+            duplicate_keys = symbol_table.select { |key| table.keys? key }
+            duplicate_keys.each {|key| puts "Error : id #{key} has been declared"}
+
+            symbol_table.merge!(table)
+        end
+        return symbol_table
+    end 
 end
 
 class Dcl < ASTNode
@@ -35,6 +53,14 @@ class Dcl < ASTNode
             [:N_intdcl, :N_id]
         ]
     end
+
+    def get_symbol_table
+        if @child[0].is_a? N_floatdcl
+            {@child[1].val => :IntType}
+        else 
+            {@child[1].val => :FloatType}
+        end
+    end 
 end
 
 class Stmts < ASTNode
