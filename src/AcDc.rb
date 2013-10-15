@@ -18,8 +18,7 @@ class AcDcCompiler
             @token_list.push(token)
             token.test
         end
-        ASTNode.token_list = @token_list
-        test = TestNode.new
+        test = TestNode.new(@token_list)
         test.parse
     end
     
