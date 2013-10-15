@@ -1,5 +1,7 @@
 class Token
    
+    attr_reader :sym, :val
+   
     def initialize(sym, val)
         @sym = sym.to_sym
         if @sym == :inum
