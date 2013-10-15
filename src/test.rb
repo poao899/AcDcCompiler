@@ -1,5 +1,35 @@
 require 'stringio'
 
+class T
+    class << self
+        attr_accessor :xd
+    end
+    @@xd = 10
+    def test
+        puts @@xd
+    end
+end
+
+class P < T
+    def test
+        puts @@xd
+    end
+    def self.xd=(xd)
+        @@xd = xd
+    end
+end
+
+t = T.new
+p = P.new
+t.test          # this will puts 10
+p.test          # 10, too
+T.xd = 5
+t.test
+p.test
+P.xd = 7
+t.test
+p.test
+
 class TreeNode
 
 	def initialize
