@@ -6,7 +6,7 @@ load 'AcDcScanner.rb'
 class AcDcCompiler
 
 	def initialize(argv)
-		raise "can't open the source file\n" unless File.readable? (argv[0])
+		raise "can't open the source file\n" unless File.readable? argv[0]
 		@source = File.open(argv[0], "r")
 		@target = File.open(argv[1], "w")
 		@scanner = Scanner.new(@source)
