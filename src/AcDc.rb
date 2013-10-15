@@ -46,7 +46,7 @@ class AcDcCompiler
         @syntax_tree.get_type_of_val(symbol_table)
 
         result = @syntax_tree.code_generate(symbol_table)
-        print result
+        @target_file.write(result)
     end
 end
 
