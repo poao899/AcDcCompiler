@@ -58,7 +58,6 @@ class ASTNode
     end
     
     def rotate(invalid_symbols)
-        # puts "#{self.class.name} && #{invalid_symbols.include? self.class.name}}"
         @child.each_with_index do |x,idx|
             if (invalid_symbols.include? self.class.name) && (idx == @child.length-1) && (x.class.name == self.class.name)
                 ret = x.rotate(invalid_symbols)
@@ -71,6 +70,12 @@ class ASTNode
             
         end
         return self
+    end
+    
+    def const_fold
+        @child.each_with_index do |x,idx|
+            child[idx] = x.const_fold
+        end
     end
 end
 

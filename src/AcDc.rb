@@ -24,6 +24,8 @@ class AcDcCompiler
     def parse
         @syntax_tree = Prog.new(@token_list)
         @syntax_tree.parse
+        @syntax_tree.rotate(["Exprh", "Exprl"])
+        @syntax_tree.const_fold
     end
     
     def code_generate

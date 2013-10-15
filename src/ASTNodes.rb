@@ -65,7 +65,7 @@ class Exprh < ASTNode
         @prefix_rule = [:Exprl]
         @rules = [
             [:Opeh, :Exprh],
-            [:N_lambda]
+            []
         ]
     end
 end
@@ -76,7 +76,7 @@ class Exprl < ASTNode
         @prefix_rule = [:Val]
         @rules = [
             [:Opel, :Exprl],
-            [:N_lambda]
+            []
         ]
     end
 end
