@@ -1,3 +1,5 @@
+require 'bigdecimal'
+
 class ASTNode
     
     attr_reader :child, :type
@@ -89,10 +91,10 @@ class ASTNode
         if (child.length == 3) && (@child[1].nil?) == false && (@child[0].is_a? N_absnum) && (@child[2].is_a? N_absnum)
             if (@child[0].is_a? N_inum) && (@child[2].is_a? N_inum)
                 new_self = N_inum.new(nil)
-                new_self.val = @child[1].eval(@child[0].val, @child[2].val)
+                new_self.val = @child[1].eval(@child[0].val, @child[2].val).to_i
             else
                 new_self = N_fnum.new(nil)
-                new_self.val = @child[1].eval(@child[0].val, @child[2].val)
+                new_self.val = @child[1].eval(BigDecimal.new(@child[0].val.to_s), BigDecimal.new(@child[2].val.to_s)).to_f
             end
             return new_self
         end
