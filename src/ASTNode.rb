@@ -1,6 +1,7 @@
 class ASTNode
     
     attr_reader :child
+    attr_accessor :val
     
     def initialize(token_list=[])
         @child ||= []
@@ -53,7 +54,7 @@ class ASTNode
 
     def trace(d=0)
         d.times{print">>> "}
-        puts "Now at #{self.class.name}"
+        puts "Now at #{self.class.name} with val:#{@val}"
         @child.each{|x| x.trace(d+1)}
     end
     
@@ -73,9 +74,28 @@ class ASTNode
     end
     
     def const_fold
+    
+        # the terminals
+        return self if @child.length == 0
+        
+        # fold the symbol with only 1 child.
+        return @child[0].const_fold if @child.length == 1
+        
         @child.each_with_index do |x,idx|
-            child[idx] = x.const_fold
+            @child[idx] = x.const_fold
         end
+        
+        if (child.length == 3) && (@child[1].nil?) == false && (@child[0].is_a? N_absnum) && (@child[2].is_a? N_absnum)
+            if (@child[0].is_a? N_inum) && (@child[2].is_a? N_inum)
+                new_self = N_inum.new(nil)
+                new_self.val = @child[1].eval(@child[0].val, @child[2].val)
+            else
+                new_self = N_fnum.new(nil)
+                new_self.val = @child[1].eval(@child[0].val, @child[2].val)
+            end
+            return new_self
+        end
+        return self
     end
 end
 

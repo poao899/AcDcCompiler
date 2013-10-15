@@ -26,6 +26,7 @@ class AcDcCompiler
         @syntax_tree.parse
         @syntax_tree.rotate(["Exprh", "Exprl"])
         @syntax_tree.const_fold
+        @syntax_tree.trace
     end
     
     def code_generate

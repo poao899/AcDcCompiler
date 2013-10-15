@@ -140,12 +140,18 @@ class N_plus < ASTNode
         super(token_list)
         @expect_sym = :T_plus
     end
+    def eval(a, b)
+        a+b
+    end
 end
 
 class N_minus < ASTNode
     def initialize(token_list)
         super(token_list)
         @expect_sym = :T_minus
+    end
+    def eval(a, b)
+        a-b
     end
 end
 
@@ -154,12 +160,19 @@ class N_mult < ASTNode
         super(token_list)
         @expect_sym = :T_mult
     end
+    def eval(a, b)
+        a*b
+    end
 end
 
 class N_div < ASTNode
     def initialize(token_list)
         super(token_list)
         @expect_sym = :T_div
+    end
+    def eval(a, b)
+        raise "const folding: divide by 0" if b == 0
+        a/b
     end
 end
 
@@ -184,14 +197,20 @@ class N_floatdcl < ASTNode
     end
 end
 
-class N_inum < ASTNode
+class N_absnum < ASTNode
+    def initialize(token_list)
+        super(token_list)
+    end
+end
+
+class N_inum < N_absnum
     def initialize(token_list)
         super(token_list)
         @expect_sym = :T_inum
     end
 end
 
-class N_fnum < ASTNode
+class N_fnum < N_absnum
     def initialize(token_list)
         super(token_list)
         @expect_sym = :T_fnum
