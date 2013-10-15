@@ -28,11 +28,15 @@ class AcDcCompiler
         @syntax_tree.const_fold
         @syntax_tree.trace
     end
+
+    def optimize
+        @syntax_tree.const_fold
+    end 
     
     def code_generate
-        #result = @syntax_tree.code_generate 
-        #puts result
         # TODO: output to target_file
+        result = @syntax_tree.code_generate 
+        puts result
     end
 end
 
@@ -50,6 +54,7 @@ def main
         myAcDc = AcDcCompiler.new(ARGV)
         myAcDc.get_input
         myAcDc.parse
+        myAcDc.optimize
         myAcDc.code_generate 
     rescue Exception => e    # Compile failed.
         puts e.message
