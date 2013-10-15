@@ -1,4 +1,5 @@
 load 'ASTNode.rb'
+load 'AcDcToken.rb'
 
 class Scanner
 
@@ -14,25 +15,23 @@ class Scanner
     def getToken
         begin str = getStr end until str.nil? || str != "\n"
         return nil unless str
-        if str =~ /^\d+$/
-            # read a inum
-        elsif str =~ /^\d+\.$/
+        ret = nil
+        if str =~ /^\d+$/               # inum
+            ret = Token.new(:inum, str)
+        elsif str =~ /^\d+\.$/          # fnum
             str2 = getStr
             raise "scan error at line #{@line_num}: not a fnum: #{str+str2}" unless str2 =~ /^\d+$/
-            str += str2
-            # read a fnum
-        elsif str =~ /^[a-zA-Z]+$/
-            # read a id
-        elsif str =~ /^[\+\-]$/
-            # read plus/minus
-        elsif str =~ /^[\*\/]$/
-            # read mult/div
-        elsif str == "="
-            # read assign
-        else
+            ret = Token.new(:fnum, str+str2)
+        elsif str =~ /^[a-zA-Z]+$/      # id
+            ret = Token.new(:id, str)
+        elsif str =~ /^[\+\-\*\/]$/     # operator
+            ret = Token.new(:ope, str)
+        elsif str == "="                # assign
+            ret = Token.new(:ass, str)
+        else                            # unknowns
             raise "scan error at line #{@line_num}: not a symbol: #{str}"
         end
-        return str
+        return ret
     end
     
     private

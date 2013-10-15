@@ -16,6 +16,7 @@ class AcDcCompiler
     def parse
         while token = @scanner.getToken
             @token_list.insert(token)
+            token.test
         end
     end
     
