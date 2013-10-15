@@ -1,22 +1,29 @@
-Prog	-> Dcls Stmts $
-Dcls	-> Dcl Dcls
-		 | 入
-Dcl		-> floatdcl id
-		 | intdcl id
-Stmts	-> Stmt Stmts
-		 | 入
-Stmt	-> id assign Exprh
-		 | print id
-Exprh	-> Exprh Opeh Exprh
-		 | Exprl
-		 | 入
-Exprl	-> Exprl Opel Exprl
-		 | Val
-		 | 入
-Opeh	-> plus
-		 | minus
-Opel	-> mult
-		 | div
-Val		-> id
-		 | inum
-		 | fnum
+Prog    -> Dcls Stmts $
+
+Dcls    -> Dcl Dcls
+         | 入
+
+Dcl     -> floatdcl id
+         | intdcl id
+
+Stmts   -> Stmt Stmts
+         | 入
+
+Stmt    -> id assign Exprh
+         | print id
+
+Exprh   -> Exprl
+         | Exprh Opeh Exprh
+
+Exprl   -> Val
+         | Exprl Opel Exprl
+
+Opeh    -> plus
+         | minus
+
+Opel    -> mult
+         | div
+
+Val     -> id
+         | inum
+         | fnum
