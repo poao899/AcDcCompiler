@@ -1,4 +1,5 @@
-All:
-	gcc AcDc.c -o AcDc
+all:
+	@chmod 700 AcDc
+	@echo "Nothing to do with make all"
 clean:
-	rm AcDc
+	@echo "Nothing to do with clean"
