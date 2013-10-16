@@ -131,7 +131,11 @@ class Exprh < ASTNode
         output = ""
         output += "l#{symbol_table[left.val][:reg]}\n" if left.is_a? N_id
         output += "l#{symbol_table[right.val][:reg]}\n" if right.is_a? N_id
-        output += "5 k\n" if @type == :Float
+        if @type == :Float
+            output += "5 k\n" 
+        else 
+            output += "0 k\n" 
+        end
         output += "#{@child[1].val}\n"
         return output
     end 
@@ -159,7 +163,11 @@ class Exprl < ASTNode
         output = ""
         output += "l#{symbol_table[left.val][:reg]}\n" if left.is_a? N_id
         output += "l#{symbol_table[right.val][:reg]}\n" if right.is_a? N_id
-        output += "5 k\n" if @type == :Float
+        if @type == :Float
+            output += "5 k\n" 
+        else 
+            output += "0 k\n" 
+        end
         output += "#{@child[1].val}\n"
         return output
     end 
